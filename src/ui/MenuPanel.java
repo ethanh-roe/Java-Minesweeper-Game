@@ -6,9 +6,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -32,18 +34,26 @@ public class MenuPanel extends JPanel {
 
 	static JLabel flagDisplay;
 
+	private ImageIcon helpButtonIcon;
+
+	private ImageIcon resetButtonIcon;
+
+
 	public MenuPanel() {
 		game = GamePanel.game;
 		time = 0;
 		flags = MineGame.NUM_MINES;
 		done = GamePanel.done;
 
+		scaleIcons();
+
 		String[] difficulties = { "Easy", "Medium", "Hard" };
 		JComboBox difficultyList = new JComboBox(difficulties);
 		difficultyList.setPreferredSize(new Dimension(35, 25));
 		difficultyList.addActionListener(new DifficultyListListener());
 
-		JButton resetButton = new JButton("↻");
+		JButton resetButton = new JButton();
+		resetButton.setIcon(resetButtonIcon);
 		resetButton.setPreferredSize(new Dimension(35, 25));
 		resetButton.addActionListener(new ResetButtonListener());
 
@@ -61,8 +71,10 @@ public class MenuPanel extends JPanel {
 		flagDisplay.setBackground(Color.black);
 		flagDisplay.setForeground(Color.red);
 
-		JButton helpButton = new JButton("?");
-		helpButton.setPreferredSize(new Dimension(15, 15));
+		JButton helpButton = new JButton();
+		helpButton.setIcon(helpButtonIcon);
+		helpButton.setPreferredSize(new Dimension(
+				15, 15));
 		helpButton.addActionListener(new HelpButtonListener());
 
 		JPanel middlePanel = new JPanel();
@@ -74,6 +86,20 @@ public class MenuPanel extends JPanel {
 		this.add(flagDisplay);
 		this.add(middlePanel);
 		this.add(timeDisplay);
+
+	}
+
+	private void scaleIcons() {
+
+		helpButtonIcon = new ImageIcon(getClass().getResource("/QuestionMark.png"));
+		Image questionMark = helpButtonIcon.getImage();
+		Image newQuestionMark = questionMark.getScaledInstance(15, 15,  java.awt.Image.SCALE_SMOOTH);
+		helpButtonIcon = new ImageIcon(newQuestionMark);
+
+		resetButtonIcon = new ImageIcon(getClass().getResource("/Reset.png"));
+		Image resetArrow = resetButtonIcon.getImage();
+		Image newResetArrow = resetArrow.getScaledInstance(35, 25,  java.awt.Image.SCALE_SMOOTH);
+		resetButtonIcon = new ImageIcon(newResetArrow);
 
 	}
 
@@ -147,10 +173,15 @@ public class MenuPanel extends JPanel {
 							+ "square. Squares with no number dont border a mine. If the player suspects a square is occupied by a mine they have the option of 'flagging' that square.\n"
 							+ "It is not necessary to place a flag on every mine to win the game. You only need to uncover all the squares that aren't mines. However, marking squares\n"
 							+ "suspected of being mine can help keep track of how may more mines there are." + "\n\n"
+							+ "To reveal a square left click and to mark a square with a flag right click.\n"
 							+ "The UI above the grid of squares represents the following-\n"
 							+ "? - Opens up the info panel.\n"
 							+ "The label on the left represents the number of mines on the board and decreases as you place flags\n"
 							+ "↻ - Resets the game\n"
+							+ "The drop down menu below the reset button is used to change the difficulty of the game\n"
+							+ "Easy - 9x9 grid consisting of 10 mines\n"
+							+ "Medium - 16x16 grid consisting of 40 mines\n"
+							+ "Hard - 16x30 grid consisting of 99 mines\n"
 							+ "The label on the right displays the amount of time you have spent playing" + "\n\n"
 							+ "For info on common patterns and tactics for minesweeper visit \n"
 							+ "minesweepergame.com/strategy/how-to-play-minesweeper",
