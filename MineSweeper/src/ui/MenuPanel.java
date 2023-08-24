@@ -86,7 +86,6 @@ public class MenuPanel extends JPanel {
 		flagDisplay.setText(Integer.toString(--flags));
 	}
 
-	@Override
 	public void paintComponent(Graphics g) {
 		((Graphics2D) g).setBackground(Color.black);
 
@@ -110,7 +109,6 @@ public class MenuPanel extends JPanel {
 
 	static Timer timer = new Timer(1000, new ActionListener() {
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (!done) {
 				time++;
@@ -166,6 +164,7 @@ public class MenuPanel extends JPanel {
 			MineGame.DIFFICULTY = cb.getSelectedIndex() + 1;
 			Main.createNewFrame(new MineGame(MineGame.DIFFICULTY));
 
+			System.out.println("here");
 
 		}
 	}
